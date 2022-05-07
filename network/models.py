@@ -27,6 +27,7 @@ class Post(models.Model):
         return {
             "id": self.id,
             "user": self.user.username,
+            "user_id": self.user.id,
             "postContent": self.postContent,
             "comment": self.comment,
             "time": self.time.strftime("%b %d %Y, %I:%M %p")

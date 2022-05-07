@@ -26,7 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
             posts.forEach(post => {
                 const postElement = document.createElement('div');
                 postElement.innerHTML = `<div class="post">
-                                            <div id="user"><strong>${post.user}</strong></div> <br>
+                                            <div id="user">
+                                                <a href="http://127.0.0.1:8000/profile/${post.user_id}">
+                                                    <strong>${post.user}</strong>
+                                                </a>
+                                            </div> <br>
                                             <div id="content">${post.postContent}</div> <br>
                                             <div id="time">${post.time}</div> <br>
                                         </div>

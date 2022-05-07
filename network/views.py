@@ -103,4 +103,4 @@ def viewpost(request, post_id):
 @login_required
 def profile(request, user_id):
     profile = Profile.objects.get(pk=user_id)
-    return render(request, "network/profile.html")
+    return render(request, "network/profile.html", {"profile": profile.user.username})
