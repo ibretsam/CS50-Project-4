@@ -103,4 +103,18 @@ def viewpost(request, post_id):
 @login_required
 def profile(request, user_id):
     profile = Profile.objects.get(pk=user_id)
-    return render(request, "network/profile.html", {"profile": profile.user.username})
+    followerList = profile.follower.all()
+    followingList = profile.following.all()
+    return render(request, "network/profile.html", {"profile": profile, "followerList": followerList, "followingList": followingList})
+
+@login_required
+def follow(request, user_id, condition):
+    profile = Profile.objects.get(pk=user_id)
+    userProfile = Profile.objects.get(pk=int(request.user.id))
+    if condition == "follow":
+        profile.follower.add(userProfile.user)
+        userProfile.following.add(profile.user)
+    elif condition == "unfollow":
+        profile.follower.remove(userProfile.user)
+        userProfile.following.remove(profile.user)
+    return HttpResponseRedirect(reverse("profile", kwargs={'user_id': user_id}))
