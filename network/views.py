@@ -91,6 +91,10 @@ def allpost(request, target):
     if target == "all":
         posts = Post.objects.all()
         posts = posts.order_by("-time").all()
+    elif target == "following":
+        request_profile = Profile.objects.get(pk=request.user.id)
+        followingList = request_profile.following.all()
+        posts = Post.objects.filter(user__in=followingList)
     return JsonResponse([post.serialize() for post in posts], safe=False)
 
 @csrf_exempt
@@ -118,3 +122,4 @@ def follow(request, user_id, condition):
         profile.follower.remove(userProfile.user)
         userProfile.following.remove(profile.user)
     return HttpResponseRedirect(reverse("profile", kwargs={'user_id': user_id}))
+
