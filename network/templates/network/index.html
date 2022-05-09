@@ -12,9 +12,15 @@
                     <input class="btn btn-primary" type="button" value="Post" id="newpostsubmit" style="margin: 10px 0;">
                 </form>
             </div>
-            <div id="page-content">
+            {% if home %}
+                <div id="homepage-content">
 
-            </div>
+                </div>
+            {% else %}
+                <div id="page-content">
+
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>

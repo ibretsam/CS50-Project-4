@@ -13,6 +13,13 @@ from .models import User, Post, Profile
 
 def index(request):
     if request.user.is_authenticated:
+        home = True
+        return render(request, "network/index.html", {"home": home})
+    else:
+        return HttpResponseRedirect(reverse("login"))
+    
+def followingView(request):
+    if request.user.is_authenticated:
         return render(request, "network/index.html")
     else:
         return HttpResponseRedirect(reverse("login"))

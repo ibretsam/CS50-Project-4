@@ -1,7 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelector("#newpostsubmit").onclick = newpost;
-    showpost();
+    if (window.location.pathname == '/following') {
+        showpost("following");
+    }
+    else {
+        showpost("all");
+    }
 
     function newpost() {
         let postContent = document.querySelector("#newpost").value;
@@ -21,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
           window.location.reload();
     }
 
-    function showpost() {
-        fetch('/post/all').then(response => response.json()).then(posts => {
+    function showpost(target) {
+        fetch(`/post/${target}`).then(response => response.json()).then(posts => {
             posts.forEach(post => {
                 const postElement = document.createElement('div');
                 postElement.innerHTML = `<div class="post">
@@ -35,7 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
                                             <div id="time">${post.time}</div> <br>
                                         </div>
                 `;
-                document.querySelector("#page-content").appendChild(postElement);
+                if (target == "all") {
+                    document.querySelector("#homepage-content").appendChild(postElement);
+                }
+                else if (target == "following") {
+                    document.querySelector("#page-content").appendChild(postElement);
+                }
+                
             });
         })
     }
