@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 
 
 from .models import User, Post, Profile
@@ -103,6 +104,8 @@ def allpost(request, target):
         followingList = requestProfile.following.all()
         posts = Post.objects.filter(profile__user__in=followingList)
         posts = posts.order_by("-time").all()
+    else:
+        posts = Post.objects.filter(profile__user__username = target)
     return JsonResponse([post.serialize() for post in posts], safe=False)
 
 @csrf_exempt

@@ -18,7 +18,7 @@ class Profile(models.Model):
 
 class Post(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="PostProfile")
-    postContent = models.CharField(max_length=1000)
+    postContent = models.TextField(max_length=1000)
     comment = models.TextField(max_length=1000, blank=True)
     time = models.DateTimeField(auto_now_add=True)
     
