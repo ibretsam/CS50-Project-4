@@ -11,5 +11,15 @@
             <a class="btn btn-danger" href="{% url 'follow' user_id=profile.id condition='unfollow' %}">Unfollow</a>
         {% endif %}    
     {% endif %}
+    <br>
+    Follower: 
+    {% for pro in followerList %}
+        {{pro}}
+    {% endfor %}
+    <br>
+    Following:
+    {% for pro in followingList %}
+        {{pro}}
+    {% endfor %}
 </div>
 {% endblock %}

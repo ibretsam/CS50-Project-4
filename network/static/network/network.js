@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelector("#newpostsubmit").onclick = newpost;
@@ -10,11 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function newpost() {
         let postContent = document.querySelector("#newpost").value;
-        let user = document.querySelector("#username").innerHTML;
+        let profile = document.querySelector("#username").innerHTML;
         fetch('/post', {
             method: 'POST',
             body: JSON.stringify({
-                user: user,
+                profile: profile,
                 postContent: postContent
             })
           })
@@ -32,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const postElement = document.createElement('div');
                 postElement.innerHTML = `<div class="post">
                                             <div id="user">
-                                                <a href="http://127.0.0.1:8000/profile/${post.user_id}">
-                                                    <strong>${post.user}</strong>
+                                                <a href="http://127.0.0.1:8000/profile/${post.profile_id}">
+                                                    <strong>${post.profile}</strong>
                                                 </a>
                                             </div> <br>
                                             <div id="content">${post.postContent}</div> <br>

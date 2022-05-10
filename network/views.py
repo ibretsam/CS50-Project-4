@@ -32,8 +32,8 @@ def newpost(request):
     data = json.loads(request.body)
     content = data.get("postContent", "")
     Post.objects.create(
-        user = request.user,
-        postContent = content
+        postContent = content,
+        profile = Profile.objects.get(pk=request.user.userprofile.id)
     )
     return JsonResponse({"message": "Post posted successfully"}, status=201)
 
@@ -99,9 +99,10 @@ def allpost(request, target):
         posts = Post.objects.all()
         posts = posts.order_by("-time").all()
     elif target == "following":
-        request_profile = Profile.objects.get(pk=request.user.id)
-        followingList = request_profile.following.all()
-        posts = Post.objects.filter(user__in=followingList)
+        requestProfile = Profile.objects.get(pk=int(request.user.userprofile.id))
+        followingList = requestProfile.following.all()
+        posts = Post.objects.filter(profile__user__in=followingList)
+        posts = posts.order_by("-time").all()
     return JsonResponse([post.serialize() for post in posts], safe=False)
 
 @csrf_exempt
@@ -121,7 +122,7 @@ def profile(request, user_id):
 @login_required
 def follow(request, user_id, condition):
     profile = Profile.objects.get(pk=user_id)
-    userProfile = Profile.objects.get(pk=int(request.user.id))
+    userProfile = Profile.objects.get(pk=int(request.user.userprofile.id))
     if condition == "follow":
         profile.follower.add(userProfile.user)
         userProfile.following.add(profile.user)
