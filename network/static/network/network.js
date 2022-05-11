@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 function showpost(target) {
-    fetch(`/post/${target}`).then(response => response.json()).then(posts => {
+    fetch(`/post/${target}?page=1`).then(response => response.json()).then(posts => {
         posts.forEach(post => {
             const postElement = document.createElement('div');
             postElement.innerHTML = `<div class="post">

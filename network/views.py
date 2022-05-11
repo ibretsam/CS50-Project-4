@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import get_user_model
+from django.core.paginator import Paginator
 
 
 from .models import User, Post, Profile
@@ -14,11 +14,14 @@ from .models import User, Post, Profile
 
 def index(request):
     if request.user.is_authenticated:
+        
+        # Add a home variable to recognize this is the homepage
         home = True
         return render(request, "network/index.html", {"home": home})
     else:
         return HttpResponseRedirect(reverse("login"))
-    
+
+# Create a view for following page, same method as index function but without the home variable
 def followingView(request):
     if request.user.is_authenticated:
         return render(request, "network/index.html")
@@ -28,10 +31,18 @@ def followingView(request):
 @csrf_exempt
 @login_required
 def newpost(request):
+    
+    # Make sure the request method must be POST
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status = 400)
+    
+    # Get the api fetching data from request
     data = json.loads(request.body)
+    
+    # Getting the postContent from the fetching request
     content = data.get("postContent", "")
+    
+    # Create a new post with the content and profile
     Post.objects.create(
         postContent = content,
         profile = Profile.objects.get(pk=request.user.userprofile.id)
@@ -94,19 +105,36 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
+# This function returns API for fetching from front-end
 @login_required
 def allpost(request, target):
+    
+    # For all the posts by everyone
     if target == "all":
         posts = Post.objects.all()
         posts = posts.order_by("-time").all()
+        
+    # For all the posts that request user is following
     elif target == "following":
+        
+        # Getting the list of all the profile the request.user following
         requestProfile = Profile.objects.get(pk=int(request.user.userprofile.id))
         followingList = requestProfile.following.all()
+        
+        # Filter the posts by profiles in the following list
         posts = Post.objects.filter(profile__user__in=followingList)
         posts = posts.order_by("-time").all()
+        
+    # For all the post for a specific user
     else:
+        
+        # Filter the posts by the target profile
         posts = Post.objects.filter(profile__user__username = target)
-    return JsonResponse([post.serialize() for post in posts], safe=False)
+        posts = posts.order_by("-time").all()
+    p = Paginator(posts, 10)
+    page = request.GET.get('page')
+    posts = p.get_page(page) 
+    return JsonResponse([post.serialize() for post in posts],safe=False)
 
 @csrf_exempt
 @login_required
@@ -124,8 +152,12 @@ def profile(request, user_id):
 
 @login_required
 def follow(request, user_id, condition):
+    
+    # Get the request.user profile and the current profile's page's profile
     profile = Profile.objects.get(pk=user_id)
     userProfile = Profile.objects.get(pk=int(request.user.userprofile.id))
+    
+    # Add or remove profiles to following/follower list depend on condition
     if condition == "follow":
         profile.follower.add(userProfile.user)
         userProfile.following.add(profile.user)
