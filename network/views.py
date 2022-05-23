@@ -134,12 +134,13 @@ def allpost(request, target):
     p = Paginator(posts, 10)
     page = request.GET.get('page')
     posts = p.get_page(page) 
-    return JsonResponse([post.serialize() for post in posts],safe=False)
+    posts_obj = [post.serialize() for post in posts]
+    return JsonResponse({"currentpage": int(page),"numberOfPage": p.num_pages, "has_next": posts.has_next(), "has_previous": posts.has_previous(), "post": posts_obj},safe=False)
 
 @csrf_exempt
 @login_required
 def viewpost(request, post_id):
-    post = Post.objects.get(user=request.user, pk = post_id)
+    post = Post.objects.get(pk = post_id)
     if request.method == "GET":
         return JsonResponse(post.serialize())
 
