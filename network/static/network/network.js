@@ -11,31 +11,17 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (window.location.pathname === '/following') {
             showpost("following", 1);
-            document.querySelectorAll(".page-link").forEach(item => {
-                item.addEventListener('click', () => {
-                    let page = item.innerHTML;
-                    document.querySelector("#page-content").innerHTML = '';
-                    showpost("following", page);
-                })
-            })
         }
         
         if(window.location.pathname === '/') {
             showpost("all", 1);
-            let navBtn = document.querySelectorAll(".page-link");
-            navBtn.forEach(item => {
-                item.onclick = console.log("This button has been clicked");
-            })
+            
         }
     }
     else {
         let username = document.querySelector("#user");
-        showpost(username.innerHTML);
+        showpost(username.innerHTML, 1);
     }
-
-    
-
-    
 })
 
 
@@ -80,14 +66,81 @@ function showpost(target, page) {
             else {
                 document.querySelector("#profile-content").appendChild(postElement);
             }
-            
-            if (posts.numberOfPage > 1) {
-                document.querySelector("#page").innerHTML = '';
-                for (let i = 0; i < posts.numberOfPage; i++) {
-                    document.querySelector("#page").innerHTML += `<li class="page-item"><button class="page-link" data-page="${i + 1}">${i + 1}</button></li>`
+
+            if (posts.currentpage == 1) {
+                document.querySelector("#previous").innerHTML = ``;
+                document.querySelector("#page").innerHTML = ``;
+                if (posts.numberOfPage < 3) {
+                    for (let i = 0; i < posts.numberOfPage; i++) {
+                        document.querySelector("#page").innerHTML += `<li class="page-item"><button class="page-link" data-page="${i + 1}">${i + 1}</button></li>`
+                    }
                 }
+                else {
+                    for (let i = 0; i < 3; i++) {
+                        document.querySelector("#page").innerHTML += `<li class="page-item"><button class="page-link" data-page="${i + 1}">${i + 1}</button></li>`
+                    }
+                }
+                document.querySelector("#next").innerHTML = `<li class="page-item">
+                <a class="page-link" href="#" data-page="${posts.currentpage + 1}">Next</a>
+              </li>`
+            }
+            else if (posts.currentpage == posts.numberOfPage) {
+                document.querySelector("#previous").innerHTML = `<li class="page-item">
+                <a class="page-link" href="#" data-page="${posts.numberOfPage - 1}">Previous</a>
+              </li>`
+                document.querySelector("#page").innerHTML = ``;
+                if (posts.numberOfPage < 3) {
+                    for (let i = posts.numberOfPage - posts.currentpage; i < posts.numberOfPage; i++) {
+                        document.querySelector("#page").innerHTML += `<li class="page-item"><button class="page-link" data-page="${i + 1}">${i + 1}</button></li>`
+                    }
+                }
+                else {
+                    for (let i = posts.numberOfPage - 3; i < posts.numberOfPage; i++) {
+                        document.querySelector("#page").innerHTML += `<li class="page-item"><button class="page-link" data-page="${i + 1}">${i + 1}</button></li>`
+                    }
+                }
+                document.querySelector("#next").innerHTML = '';
+            }
+            else {
+                document.querySelector("#previous").innerHTML = `<li class="page-item">
+                <a class="page-link" href="#" data-page="${posts.currentpage - 1}">Previous</a>
+              </li>`
+                document.querySelector("#page").innerHTML = ``;
+                for (let i = posts.currentpage; i < posts.currentpage + 3; i++) {
+                    document.querySelector("#page").innerHTML += `<li class="page-item"><button class="page-link" data-page="${i - 1}">${i - 1}</button></li>`
+                }
+                document.querySelector("#next").innerHTML = `<li class="page-item">
+                <a class="page-link" href="#" data-page="${posts.currentpage + 1}">Next</a>
+              </li>`
             }
         });
+        
+        let navBtn = document.querySelectorAll(".page-link");
+        navBtn.forEach(item => {
+            item.addEventListener('click', () => {
+                let pageindex =  parseInt(item.dataset.page);
+                if (window.location.pathname === '/') {
+                    document.querySelector("#homepage-content").innerHTML = '';
+                    showpost("all", pageindex);
+                }
+                else if (window.location.pathname === '/following') {
+                    document.querySelector("#page-content").innerHTML = '';
+                    showpost("following", pageindex);
+                }
+                else {
+                    document.querySelector("#profile-content").innerHTML = '';
+                    let username = document.querySelector("#user");
+                    showpost(username.innerHTML, pageindex);
+
+                }
+            })
+            if (item.dataset.page == posts.currentpage) {
+                item.parentElement.className = "page-item active";
+            }
+            else {
+                item.parentElement.className = "page-item";
+            }
+        })
     })
     
 }
