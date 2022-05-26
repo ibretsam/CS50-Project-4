@@ -1,4 +1,5 @@
 import json
+from telnetlib import STATUS
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -36,7 +37,7 @@ def newpost(request):
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status = 400)
     
-    # Get the api fetching data from request
+    # Get the API fetching data from request
     data = json.loads(request.body)
     
     # Getting the postContent from the fetching request
@@ -109,40 +110,63 @@ def register(request):
 @login_required
 def allpost(request, target):
     
-    # For all the posts by everyone
-    if target == "all":
-        posts = Post.objects.all()
-        posts = posts.order_by("-time").all()
-        
-    # For all the posts that request user is following
-    elif target == "following":
-        
-        # Getting the list of all the profile the request.user following
-        requestProfile = Profile.objects.get(pk=int(request.user.userprofile.id))
-        followingList = requestProfile.following.all()
-        
-        # Filter the posts by profiles in the following list
-        posts = Post.objects.filter(profile__user__in=followingList)
-        posts = posts.order_by("-time").all()
-        
-    # For all the post for a specific user
-    else:
-        
-        # Filter the posts by the target profile
-        posts = Post.objects.filter(profile__user__username = target)
-        posts = posts.order_by("-time").all()
-    p = Paginator(posts, 10)
-    page = request.GET.get('page')
-    posts = p.get_page(page) 
-    posts_obj = [post.serialize() for post in posts]
-    return JsonResponse({"currentpage": int(page),"numberOfPage": p.num_pages, "has_next": posts.has_next(), "has_previous": posts.has_previous(), "post": posts_obj},safe=False)
+    if request.method == "GET":
+    
+        # For all the posts by everyone
+        if target == "all":
+            posts = Post.objects.all()
+            posts = posts.order_by("-time").all()
+            
+        # For all the posts that request user is following
+        elif target == "following":
+            
+            # Getting the list of all the profile the request.user following
+            requestProfile = Profile.objects.get(pk=int(request.user.userprofile.id))
+            followingList = requestProfile.following.all()
+            
+            # Filter the posts by profiles in the following list
+            posts = Post.objects.filter(profile__user__in=followingList)
+            posts = posts.order_by("-time").all()
+            
+        # For all the post for a specific user
+        else:
+            
+            # Filter the posts by the target profile
+            posts = Post.objects.filter(profile__user__username = target)
+            posts = posts.order_by("-time").all()
+        p = Paginator(posts, 10)
+        page = request.GET.get('page')
+        posts = p.get_page(page) 
+        posts_obj = [post.serialize() for post in posts]
+        return JsonResponse({"currentpage": int(page),"numberOfPage": p.num_pages, "has_next": posts.has_next(), "has_previous": posts.has_previous(), "post": posts_obj},safe=False)
 
 @csrf_exempt
 @login_required
 def viewpost(request, post_id):
-    post = Post.objects.get(pk = post_id)
+    
+    # Query for the post
+    try:
+        post = Post.objects.get(profile = request.user.userprofile, pk = post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Post not found."}, status=404)
+    
+    # Return post content
     if request.method == "GET":
         return JsonResponse(post.serialize())
+    
+    # Update post content
+    elif request.method == "PUT":
+        data = json.loads(request.body)
+        if data.get("postContent") is not None:
+            post.postContent = data["postContent"]
+        post.save()
+        return JsonResponse({"message": "Post updated successfully."}, status=204)
+    
+    # Post must be via GET or PUT
+    else:
+        return JsonResponse({
+            "error": "GET or PUT request required."
+        }, status=400)
 
 @login_required
 def profile(request, user_id):

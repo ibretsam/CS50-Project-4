@@ -13,3 +13,23 @@ body{
 #page{
     display: flex;
 }
+
+#next{
+    display: flex;
+}
+
+.post-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+textarea {
+    width: 100%;
+    border: 1px solid rgba(128, 128, 128, 0.651);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.submit {
+    text-align: right;
+}
