@@ -1,3 +1,4 @@
+import profile
 import re
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -14,7 +15,6 @@ class Profile(models.Model):
     
     def __str__(self):
         return f"{self.user.username}"
-
 
 class Post(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="PostProfile")
@@ -34,3 +34,17 @@ class Post(models.Model):
     
     def __str__(self):
         return f"{self.profile.user.username} posted: {self.postContent}"
+
+class Like(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="likedProfile")
+    liked = models.BooleanField(default=False);
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="postLiked")
+    
+    def serialize(self):
+        return {
+            "post": self.post,
+            "likedProfile": self.profile
+        }
+    
+    def __str__(self):
+        return f"{self.profile} liked {self.post}"

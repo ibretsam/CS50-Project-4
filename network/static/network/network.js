@@ -64,7 +64,17 @@ function showpost(target, page) {
                                             <div id="content">${post.postContent}</div> <br>
                                             <div id="time"><a href="/post/${post.id}">${post.time}</a></div> <br>
                                     </div>
+                                    <div class="edit-post" style="display:none">
+                                        <form>
+                                        <textarea class="postContent">${post.postContent}</textarea>
+                                        <div class="submit">
+                                            <button class="btn btn-outline-primary cancel-btn" type="button">Cancel</button>
+                                            <button class="btn btn-primary update-btn" type="button" data-id="${post.id}">Update</button>
+                                        </div>
+                                        </form>
+                                    </div>
             `;
+               
             }
             else {
                 postElement.innerHTML = `<div class="post">
@@ -135,12 +145,45 @@ function showpost(target, page) {
                 <a class="page-link" href="#" data-page="${posts.currentpage + 1}">Next</a>
               </li>`
             }
-            document.querySelectorAll(".edit-btn").forEach(btn => {
-                btn.innerHTML = `<button class="editButton">
-                <svg fill="#000000" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="24px" height="24px">    <path d="M 19.171875 2 C 18.448125 2 17.724375 2.275625 17.171875 2.828125 L 16 4 L 20 8 L 21.171875 6.828125 C 22.275875 5.724125 22.275875 3.933125 21.171875 2.828125 C 20.619375 2.275625 19.895625 2 19.171875 2 z M 14.5 5.5 L 3 17 L 3 21 L 7 21 L 18.5 9.5 L 14.5 5.5 z"/></svg>
-            </button>`;
-            })
+            
+
         });
+
+        const editBtn = document.querySelectorAll(".edit-btn");
+            editBtn.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btn.parentElement.parentElement.style.display = 'none';
+                    btn.parentElement.parentElement.nextElementSibling.style.display = 'block';
+                    
+                    document.querySelectorAll(".update-btn").forEach(button => {
+                        button.addEventListener('click', () => {
+                            let postContent = button.parentElement.previousElementSibling.value;
+                            editPost(postContent, button.dataset.id);
+                            if (window.location.pathname === "/") {
+                                document.querySelector("#homepage-content").innerHTML = '';
+                                showpost("all", posts.currentpage);
+                            }
+                            else {
+                                document.querySelector("#profile-content").innerHTML = '';
+                                showpost(username, posts.currentpage)
+                            }
+                        })
+                    })
+
+                    document.querySelectorAll(".cancel-btn").forEach(button => {
+                        button.addEventListener("click", () => {
+                            btn.parentElement.parentElement.style.display = 'block';
+                            btn.parentElement.parentElement.nextElementSibling.style.display = 'none';
+                        })
+                    })
+                })
+
+                
+
+                btn.innerHTML = `<button class="editButton">
+                <svg width="24px" height="24px">    <path d="M 19.171875 2 C 18.448125 2 17.724375 2.275625 17.171875 2.828125 L 16 4 L 20 8 L 21.171875 6.828125 C 22.275875 5.724125 22.275875 3.933125 21.171875 2.828125 C 20.619375 2.275625 19.895625 2 19.171875 2 z M 14.5 5.5 L 3 17 L 3 21 L 7 21 L 18.5 9.5 L 14.5 5.5 z"/></svg>
+                </button>`;
+            })
         
         let navBtn = document.querySelectorAll(".page-link");
         navBtn.forEach(item => {
@@ -171,17 +214,14 @@ function showpost(target, page) {
                 item.parentElement.className = "page-item";
             }
         })
-        const editBtn = document.querySelectorAll(".edit-btn");
-        editBtn.forEach(btn => {
-            btn.addEventListener('click', () => {
-                btn.parentElement.parentElement.innerHTML = `<form>
-                                                                <textarea></textarea>
-                                                                <div class="submit">
-                                                                    <button class="btn btn-primary">Update</button>
-                                                                </div>
-                                                            </form>
-                                                            `
-            })
+    })
+}
+
+function editPost(postContent, postID) {
+    fetch(`http://${window.location.hostname}:${window.location.port}/post/${postID}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            postContent: postContent
         })
     })
 }
