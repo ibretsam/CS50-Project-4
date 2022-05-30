@@ -209,7 +209,6 @@ def like(request, post_id):
                 liked = data["liked"],
                 post = post
             )   
-        
       
         return JsonResponse({"message": "success"})
                 
