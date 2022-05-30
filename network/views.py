@@ -1,5 +1,6 @@
 import json
 from telnetlib import STATUS
+from turtle import pos
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -10,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
 
-from .models import User, Post, Profile
+from .models import Like, User, Post, Profile
 
 
 def index(request):
@@ -190,4 +191,30 @@ def follow(request, user_id, condition):
         profile.follower.remove(userProfile.user)
         userProfile.following.remove(profile.user)
     return HttpResponseRedirect(reverse("profile", kwargs={'user_id': user_id}))
+
+@csrf_exempt
+@login_required
+def like(request, post_id):
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        profile = request.user.userprofile
+        post = Post.objects.get(pk = post_id)
+        try: 
+            like = Like.objects.get(profile = profile, post = post)
+            like.liked = data["liked"]   
+            like.save()
+        except Like.DoesNotExist:
+            like = Like.objects.create(
+                profile = profile,
+                liked = data["liked"],
+                post = post
+            )   
+        
+      
+        return JsonResponse({"message": "success"})
+                
+    else:
+        return JsonResponse({
+            "error": "GET or PUT request required."
+        }, status=400)
 

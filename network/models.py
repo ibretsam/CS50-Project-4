@@ -1,5 +1,3 @@
-import profile
-import re
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -42,8 +40,9 @@ class Like(models.Model):
     
     def serialize(self):
         return {
-            "post": self.post,
-            "likedProfile": self.profile
+            "post": self.post.id,
+            "liked": self.liked,
+            "likedProfile": self.profile.id
         }
     
     def __str__(self):
