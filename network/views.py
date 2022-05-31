@@ -209,11 +209,10 @@ def like(request, post_id):
                 liked = data["liked"],
                 post = post
             )   
-      
-        return JsonResponse({"message": "success"})
+        return JsonResponse({"message": "Post liked succesfully", "likeObj": like.serialize(), "likeCount": Like.objects.filter(post = post, liked = True).count()})
                 
     else:
         return JsonResponse({
-            "error": "GET or PUT request required."
+            "error": "PUT request required."
         }, status=400)
 

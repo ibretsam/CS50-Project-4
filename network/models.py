@@ -41,9 +41,9 @@ class Like(models.Model):
     
     def serialize(self):
         return {
-            "post": self.post.id,
+            "postID": self.post.id,
             "liked": self.liked,
-            "likedProfile": self.profile.id
+            "likedProfileID": self.profile.id
         }
     
     def __str__(self):

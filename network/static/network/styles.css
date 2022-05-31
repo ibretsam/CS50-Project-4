@@ -37,4 +37,34 @@ textarea {
 .editButton{
     border: none;
     background: none;
+    padding: 7px;
+    border-radius: 5px;
+    transition: 0.25s;
 }
+.editButton:hover{
+    background-color: #b3abab40;
+}
+.like-split{
+    margin: 0.5rem 0;
+}
+
+.like-btn{
+    display: flex;
+    cursor: pointer;
+    width: fit-content;
+    padding: 5px;
+    border-radius: 5px;
+    transition: .25s;
+}
+.like-btn:hover {
+    background-color: #b3abab67;
+}
+.like-btn button{
+    background: none;
+    border: none;
+}
+.like-btn span {
+    vertical-align: middle;
+    font-weight: 500;
+}
+
