@@ -195,8 +195,12 @@ def follow(request, user_id, condition):
 @csrf_exempt
 @login_required
 def like(request, post_id):
+    
+    # Getting the post and profile
     post = Post.objects.get(pk = post_id)
     profile = request.user.userprofile
+    
+    # Try to get the like object, if there're no Like object, create new object
     try:
         like = Like.objects.get(profile = profile, post = post)
     except Like.DoesNotExist:
@@ -205,12 +209,15 @@ def like(request, post_id):
             liked = False,
             post = post
         )
+        
+    # Return API via GET request
     if request.method == "GET":
         if like != None:
             return JsonResponse ({"likeCount": Like.objects.filter(post = post, liked = True).count(), "likeObj": like.serialize()})
         else:
             return JsonResponse ({"likeCount": Like.objects.filter(post = post, liked = True).count(), "likeObj": None})
-            
+          
+    # Modify API via PUT request
     elif request.method == "PUT":
         data = json.loads(request.body)
         like.liked = data["liked"]   
@@ -219,6 +226,6 @@ def like(request, post_id):
                 
     else:
         return JsonResponse({
-            "error": "PUT request required."
+            "error": "GET or PUT request required."
         }, status=400)
 
