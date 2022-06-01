@@ -2,12 +2,44 @@ body{
     background-color: #F0F2F5;
 }
 
+#newPost-view{
+    margin-top: 15px;
+}
+
 .post{
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 10px;
     background-color: white;
     box-shadow: 1px 1px 3px 0px #b3abab;
+}
+
+.time{
+    font-size: 12px;
+}
+
+.time a{
+    color: gray;
+}
+
+.content{
+    font-size: 20px;
+}
+.follow-wrapper {
+    display: flex;
+}
+
+.follow-wrapper h6 {
+    margin-right: 10px;
+}
+
+.user {
+    margin: 15px 0;
+}
+
+.follow-btn{
+    margin: 10px 0;
+    margin-bottom: 20px;
 }
 
 #page{

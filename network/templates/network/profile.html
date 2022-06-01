@@ -1,16 +1,22 @@
 {% extends "network/layout.html" %}
 {% block body %}
 <div class="container">
-    <h4 id="user">{{ profile }}</h4>
-    <h6>{{ profile.follower.count }} follower</h6>
-    <h6>{{ profile.following.count }} following</h6>
-    {% if request.user != profile.user %}
-        {% if request.user not in followerList %}
-            <a class="btn btn-primary" href="{% url 'follow' user_id=profile.id condition='follow' %}">Follow</a>
-        {% else %}
-            <a class="btn btn-danger" href="{% url 'follow' user_id=profile.id condition='unfollow' %}">Unfollow</a>
-        {% endif %}    
-    {% endif %}
+    <div class="user">
+        <h4 id="user">{{ profile }}</h4>
+    </div>
+    <div class="follow-wrapper">
+        <h6>{{ profile.follower.count }} follower</h6>
+        <h6>{{ profile.following.count }} following</h6>
+    </div>
+    <div class="follow-btn">
+        {% if request.user != profile.user %}
+            {% if request.user not in followerList %}
+                <a class="btn btn-primary" href="{% url 'follow' user_id=profile.id condition='follow' %}">Follow</a>
+            {% else %}
+                <a class="btn btn-danger" href="{% url 'follow' user_id=profile.id condition='unfollow' %}">Unfollow</a>
+            {% endif %}    
+        {% endif %}
+    </div>
     <div id="profile-content">
 
     </div>

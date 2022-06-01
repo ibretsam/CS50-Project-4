@@ -44,22 +44,16 @@ function newpost(postContent, profile) {
 }
 
 const likesvg = `<svg width="24px" height="24px" viewBox="0 0 512 512">
-<path d="M512,304.021c0-12.821-5.099-24.768-13.867-33.6c9.963-10.901,15.019-25.536,13.632-40.725
-c-2.475-27.115-26.923-48.363-55.616-48.363H324.395c6.485-19.819,16.939-56.149,16.939-85.333c0-46.272-39.317-85.333-64-85.333
-c-22.165,0-38.016,12.459-38.677,12.992c-2.539,2.048-3.989,5.099-3.989,8.341v72.32l-61.44,133.141l-2.56,1.28v-4.075
-c0-5.888-4.779-10.667-10.667-10.667H53.333C23.936,224,0,247.936,0,277.333V448c0,29.397,23.936,53.333,53.333,53.333h64
-c23.083,0,42.773-14.72,50.219-35.243c17.749,9.131,41.643,13.931,56.469,13.931H419.84c23.232,0,43.541-15.68,48.32-37.269
-c2.453-11.115,1.024-22.315-3.84-32.043c15.744-7.936,26.347-24.171,26.347-42.688c0-7.552-1.728-14.784-5.013-21.333
-C501.397,338.752,512,322.517,512,304.021z M149.333,448c0,17.643-14.379,32-32,32h-64c-17.664,0-32-14.357-32-32V277.333
-c0-17.643,14.357-32,32-32v0.107h95.957v10.667c0,0.064,0.043,0.107,0.043,0.171V448z M466.987,330.368
-c-4.117,0.469-7.595,3.264-8.896,7.211c-1.301,3.925-0.235,8.277,2.795,11.115c5.44,5.141,8.427,12.011,8.427,19.349
-c0,13.44-10.155,24.768-23.637,26.304c-4.117,0.469-7.595,3.264-8.896,7.211c-1.301,3.925-0.235,8.277,2.795,11.115
-c7.04,6.635,9.856,15.936,7.744,25.472c-2.624,11.883-14.187,20.523-27.499,20.523H224c-15.851,0-41.365-6.848-53.333-15.744
-V262.656l15.381-7.68c2.155-1.088,3.883-2.88,4.907-5.077l64-138.667c0.64-1.387,0.981-2.923,0.981-4.459V37.909
-c4.437-2.453,12.139-5.803,21.333-5.803c11.691,0,42.667,29.077,42.667,64c0,37.525-20.416,91.669-20.629,92.203
-c-1.237,3.264-0.811,6.955,1.195,9.835c2.005,2.88,5.269,4.608,8.789,4.608h146.795c17.792,0,32.896,12.715,34.389,28.971
-c1.131,12.16-4.672,23.723-15.168,30.187c-3.285,2.005-5.205,5.653-5.056,9.493c0.128,3.84,2.347,7.296,5.781,9.067
-c9.003,4.608,14.592,13.653,14.592,23.595C490.603,317.504,480.448,328.832,466.987,330.368z"/>
+<path id="XMLID_1929_" d="M109.4,459.991H13c-2.1,0-3.9-1.8-3.9-3.9v-248.4c0-2.1,1.8-3.9,3.9-3.9h96.4
+			c2.1,0,3.9,1.8,3.9,3.9v248.4C113.3,458.191,111.6,459.991,109.4,459.991z"/>
+		<path d="M284.6,20.391c-28.2-20.7-67.2-8.8-68.8-8.3c-3.8,1.2-6.3,4.7-6.3,8.6v85.8c0,29.1-13.8,53.7-41.1,73.2
+			c-21.1,15.1-42.7,21.3-42.9,21.4c-0.2,0-0.3,0.1-0.5,0.2l-5.1,1.7c-3-4.9-8.3-8.2-14.5-8.2H16.9c-9.3,0-16.9,7.6-16.9,16.9v240.5
+			c0,9.3,7.6,16.9,16.9,16.9h88.6c8,0,14.7-5.6,16.4-13c11.9,12.7,28.8,20.7,47.6,20.7h209.8c44.6,0,73.1-23.3,78.1-64l26.8-170.2
+			c3.9-24.7-6.2-49.7-25.8-63.7c-11.1-8-24.2-12.2-37.9-12.2H311.4v-79.6C311.4,55.891,302.4,33.491,284.6,20.391z M104.2,450.891
+			H18.1v-238h86.1V450.891z M420.5,184.791c9.9,0,19.3,3,27.3,8.8c14,10.1,21.3,28.2,18.4,46.2l-26.7,170.3c0,0.1,0,0.2,0,0.3
+			c-4.9,39.8-35.4,48.2-60.2,48.2H169.5c-26,0-47.1-21.1-47.1-47.1v-190.2l8.3-2.8c2.9-0.8,25.2-7.6,47.8-23.7
+			c32.1-22.8,49.1-53.3,49.1-88.2v-78.6c10.4-2,31.3-4,46.4,7.1c12.8,9.4,19.3,26.9,19.3,52v88.7c0,5,4.1,9.1,9.1,9.1h118.1V184.791
+			z"/>
 </svg>`;
 
 const editBtnImage = `<svg width="24px" height="24px">
@@ -76,20 +70,25 @@ function showpost(target, page) {
                 postElement.innerHTML = `<div class="post" data-id="${post.id}">
                                             <div class="post-wrapper">
                                                 <div id="user">
+                                                    <div class="wrapper">
                                                     <a href="/profile/${post.profile_id}">
-                                                        <strong class="post_profile">${post.profile}</strong>
-                                                    </a>
+                                                    <strong class="post_profile">${post.profile}</strong>
+                                                </a>
+                                                <div class="time"><a href="/post/${post.id}">${post.time}</a></div> <br>
+                                                    </div>
+                                                    
                                                 </div> 
                                                 <div class="edit-btn">
                                                 </div>
                                             </div>
-                                            <br>
-                                            <div id="content">${post.postContent}</div> <br>
-                                            <div id="time"><a href="/post/${post.id}">${post.time}</a></div> <br>
+                                            
+                                            
+                                            <div class="content">${post.postContent}</div> <br>
+                                            <div class="like-count" data-id="${post.id}"></div>
                                             <hr class="like-split">
                                             <div class="like-btn">
                                                 <div class="like-img">
-                                                    <button>
+                                                    <button class="like-icon">
                                                         ${likesvg}
                                                     </button>
                                                 </div>
@@ -115,9 +114,10 @@ function showpost(target, page) {
                     <a href="/profile/${post.profile_id}">
                         <strong class="post_profile">${post.profile}</strong>
                     </a>
-                </div> <br>
-                <div id="content">${post.postContent}</div> <br>
-                <div id="time"><a href="/post/${post.id}">${post.time}</a></div> <br>
+                </div>
+                <div class="time"><a href="/post/${post.id}">${post.time}</a></div> <br>
+                <div class="content">${post.postContent}</div> <br>
+                <div class="like-count" data-id="${post.id}"></div>
                 <hr class="like-split">
                                             <div class="like-btn">
                                                 <div class="like-img">
@@ -188,6 +188,8 @@ function showpost(target, page) {
                 <a class="page-link" href="#" data-page="${posts.currentpage + 1}">Next</a>
               </li>`
             }
+
+            getLikeData(post.id);
         });
 
         const likeBtn = document.querySelectorAll(".like-btn");
@@ -282,6 +284,58 @@ function likePost(postID, condition) {
         })
     }).then(response => response.json()).then(result => {
         console.log(result)
+        getLikeData(postID)
+        likeCountEl = document.querySelectorAll(".like-count");
+        likeCountEl.forEach(el => {
+            if (el.dataset.id == postID) {
+                if (condition == true) {
+                    el.nextElementSibling.nextElementSibling.style.fill = "blue";
+                    el.nextElementSibling.nextElementSibling.style.color = "blue";
+                }
+                else {
+                    el.nextElementSibling.nextElementSibling.style.fill = "";
+                    el.nextElementSibling.nextElementSibling.style.color = "";
+                }
+            }
+        })
         
+    })
+}
+
+function getLikeData(postID) {
+    fetch(`http://${window.location.hostname}:${window.location.port}/post/${postID}/like`).then(response => response.json()).then(result => {
+        console.log(result)
+        likeCount = document.querySelectorAll(".like-count");
+        likeCount.forEach(element => {
+
+            if (element.dataset.id == postID) {
+                if (result.likeCount == 0) {
+                    element.innerHTML = '';
+                }
+                else if (result.likeCount == 1){
+                    element.innerHTML = `${result.likeCount} like`;
+                }
+                else {
+                    element.innerHTML = `${result.likeCount} likes`
+                }
+                if (result.likeObj != null) {
+                    if (result.likeObj.liked === true) {
+                        element.nextElementSibling.nextElementSibling.style.fill = "blue";
+                        element.nextElementSibling.nextElementSibling.style.color = "blue";
+                        element.nextElementSibling.nextElementSibling.addEventListener('click', () => {
+                            likePost(postID, false);
+                        })
+                    }
+                    else {
+                        element.nextElementSibling.nextElementSibling.style.fill = "";
+                        element.nextElementSibling.nextElementSibling.style.color = "";
+                        element.nextElementSibling.nextElementSibling.addEventListener('click', () =>{
+                            likePost(postID, true);
+                        })
+                    }
+                }
+            }
+            
+        })
     })
 }

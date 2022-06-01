@@ -195,20 +195,26 @@ def follow(request, user_id, condition):
 @csrf_exempt
 @login_required
 def like(request, post_id):
-    if request.method == "PUT":
+    post = Post.objects.get(pk = post_id)
+    profile = request.user.userprofile
+    try:
+        like = Like.objects.get(profile = profile, post = post)
+    except Like.DoesNotExist:
+        like = Like.objects.create(
+            profile = profile,
+            liked = False,
+            post = post
+        )
+    if request.method == "GET":
+        if like != None:
+            return JsonResponse ({"likeCount": Like.objects.filter(post = post, liked = True).count(), "likeObj": like.serialize()})
+        else:
+            return JsonResponse ({"likeCount": Like.objects.filter(post = post, liked = True).count(), "likeObj": None})
+            
+    elif request.method == "PUT":
         data = json.loads(request.body)
-        profile = request.user.userprofile
-        post = Post.objects.get(pk = post_id)
-        try: 
-            like = Like.objects.get(profile = profile, post = post)
-            like.liked = data["liked"]   
-            like.save()
-        except Like.DoesNotExist:
-            like = Like.objects.create(
-                profile = profile,
-                liked = data["liked"],
-                post = post
-            )   
+        like.liked = data["liked"]   
+        like.save()
         return JsonResponse({"message": "Post liked succesfully", "likeObj": like.serialize(), "likeCount": Like.objects.filter(post = post, liked = True).count()})
                 
     else:
