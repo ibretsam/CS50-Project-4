@@ -268,7 +268,7 @@ function showpost(target, page) {
 }
 
 function editPost(postContent, postID) {
-    fetch(`http://${window.location.hostname}/post/${postID}`, {
+    fetch(`https://${window.location.hostname}/post/${postID}`, {
         method: 'PUT',
         body: JSON.stringify({
             postContent: postContent
@@ -277,7 +277,7 @@ function editPost(postContent, postID) {
 }
 
 function likePost(postID, condition) {
-    fetch(`http://${window.location.hostname}/post/${postID}/like`, {
+    fetch(`https://${window.location.hostname}/post/${postID}/like`, {
         method: 'PUT',
         body: JSON.stringify({
             liked: condition
@@ -303,7 +303,7 @@ function likePost(postID, condition) {
 }
 
 function getLikeData(postID) {
-    fetch(`http://${window.location.hostname}/post/${postID}/like`).then(response => response.json()).then(result => {
+    fetch(`https://${window.location.hostname}/post/${postID}/like`).then(response => response.json()).then(result => {
         console.log(result)
         likeCount = document.querySelectorAll(".like-count");
         likeCount.forEach(element => {
