@@ -212,10 +212,8 @@ def like(request, post_id):
         
     # Return API via GET request
     if request.method == "GET":
-        if like != None:
-            return JsonResponse ({"likeCount": Like.objects.filter(post = post, liked = True).count(), "likeObj": like.serialize()})
-        else:
-            return JsonResponse ({"likeCount": Like.objects.filter(post = post, liked = True).count(), "likeObj": None})
+        return JsonResponse ({"likeCount": Like.objects.filter(post = post, liked = True).count(), "likeObj": like.serialize()})
+    
           
     # Modify API via PUT request
     elif request.method == "PUT":
