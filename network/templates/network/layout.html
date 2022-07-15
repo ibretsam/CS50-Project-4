@@ -9,19 +9,17 @@
         <script src="{% static 'network/network.js' %}"></script>
     </head>
     <body>
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="{% url 'index' %}">Network</a>
-          
             <div>
-              <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav mr-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'profile' request.user.userprofile.id %}"><strong id="username">{{ user.username }}</strong></a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'index' %}">All Posts</a>
+                <a class="nav-link" href="{% url 'index' %}">All Posts</a>
                 </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item">
@@ -38,13 +36,14 @@
                         <a class="nav-link" href="{% url 'register' %}">Register</a>
                     </li>
                 {% endif %}
-              </ul>
+            </ul>
             </div>
-          </nav>
-        
-        <div class="body">
-            {% block body %}
-            {% endblock %}
-        </div>
+        </nav>
+        <div class="container">
+            <div class="body">
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>   
     </body>
 </html>
