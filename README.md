@@ -1,6 +1,6 @@
 # CS50 Project 4: Social Network
 
-5th project from the online course [CS50's Web Programming with Python and JavaScript](https://cs50.harvard.edu/web/). The main goal for this project is to design a Twitter-like social network website for making posts and following users.. This project uses Django as backend and Vanilla Javascipt for frontend.
+5th project from the online course [CS50's Web Programming with Python and JavaScript](https://cs50.harvard.edu/web/). The main goal for this project is to design a Twitter-like social network website for making posts and following users. This project uses Django as backend and Vanilla Javascipt for frontend.
 
 See live demo here: https://cs50w-socialnetwork.herokuapp.com/
 
