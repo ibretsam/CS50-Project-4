@@ -31,3 +31,64 @@ Using Python, JavaScript, HTML, and CSS, complete the implementation of a social
     - For security, ensure that your application is designed such that it is not possible for a user, via any route, to edit another user’s posts.
 - **“Like” and “Unlike”**: Users should be able to click a button or link on any post to toggle whether or not they “like” that post.
     - Using JavaScript, you should asynchronously let the server know to update the like count (as via a call to fetch) and then update the post’s like count displayed on the page, without requiring a reload of the entire page.
+
+## How to run
+1. Clone this repo
+```
+git clone https://github.com/ibretsam/CS50-Project-4.git
+```
+2. Navigate to the project directory, create a virtual environment and activate it:
+```
+cd network
+
+# Create a virtual environment
+python3 -m venv venv
+
+# Activate virtual environment
+	# macOS:
+	source venv/bin/activate
+	# Windows:
+	venv/Scripts/activate.bat
+```
+3. Install required python dependencies
+```
+pip install -r requirements.txt
+```
+4. Start the Django web server
+```
+python manage.py runserver
+```
+5. Go to the URL provided in the terminal and you should be redirected to the Homepage!
+
+## Usage
+When open then index page (`/`), you should be direct to the login page, you can login or register an account here, then login, you will be direct to the `homepage` which is the `All Post` page, this page will display all the posts of all users in the data.
+
+![allPostPage](doc/allPostPage.jpg)
+
+In this page, you can create a new post, by typing the content of the post in the text area at the beginning of the page and click post, it will shows new post on the feed just like in Facebook or Twitter.
+
+You can also edit your posts by clicking on the edit icon of each of your posts, then edit the content in the textarea, then click `Update`, otherwise, if you want to cancel, just click `Cancel`.
+
+![editPost](doc/editPost.jpg)
+
+You can also "like" or "unlike" a post just by clicking on the like button below each post. The total liked number will be update automatically.
+
+By clicking on a username, you will be direct to a Profile Page
+
+![profilePage](doc/profilePage.jpg)
+
+On this page, it will show the number of followers or following that the user has, and all the post by that user.
+
+If the profile you're clicking on is not you, it will display an additional `Follow` or `Unfollow` button depend on if you follow that profile or not.
+
+![otherProfilePage](doc/otherProfilePage.jpg)
+
+By clicking on `Follow` or `Unfollow` button, you can add or remove that profile to or from your following list, this will automatically update on your profile page too.
+
+If you're following a profile, that profile posts will be shown on your `Following page`.
+
+![followingPage](doc/followingPage.jpg)
+
+This page is just like the `All Post` page, but it's only display posts of profile you're following.
+
+Thanks you!
